@@ -1,0 +1,43 @@
+2785. Sort Vowels in a String
+  Intuition
+This problem asks us to sort all vowels in a string while keeping consonants in their original positions. The approach is to extract all vowels, sort them independently, then place the sorted vowels back into their original vowel positions. This preserves the overall structure while organizing vowels alphabetically.
+
+Approach
+ 
+We'll use a three-phase extraction-sort-replacement strategy:
+
+Vowel extraction: Scan the string and collect all vowels (both uppercase and lowercase) in order
+Vowel sorting: Sort the extracted vowels alphabetically (uppercase before lowercase due to ASCII)
+Replacement phase: Iterate through the string again, replacing each vowel position with the next sorted vowel
+Position tracking: Use a counter to track which sorted vowel to use next
+Edge case handling: If no vowels exist, return the original string unchanged
+This approach maintains the consonant structure while reorganizing only the vowel characters.
+
+Complexity
+Time complexity: O(nlogv)
+
+  code is:
+class Solution {
+    public String sortVowels(String s) {
+        List<Character> vowels = new ArrayList<>();
+        for (char c : s.toCharArray()) {
+            if ("AEIOUaeiou".indexOf(c) != -1) {
+                vowels.add(c);
+            }
+        }
+
+        Collections.sort(vowels);
+
+        StringBuilder result = new StringBuilder();
+        int vIndex = 0;
+        for (char c : s.toCharArray()) {
+            if ("AEIOUaeiou".indexOf(c) != -1) {
+                result.append(vowels.get(vIndex++));
+            } else {
+                result.append(c);
+            }
+        }
+
+        return result.toString();
+    }
+}
