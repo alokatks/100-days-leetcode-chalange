@@ -1,0 +1,29 @@
+3541. Find Most Frequent Vowel and Consonant
+  appraoch:push all string character into hashmap and than travel in hashmap and get highshet frequency of both vowel and consonent 
+
+    CODE:
+    class Solution {
+    public int maxFreqSum(String s) {
+        HashMap<Character,Integer>map=new HashMap<>();
+        for(int i=0;i<s.length();i++){
+            char ch=s.charAt(i);
+            if(map.containsKey(ch)){
+                int freq=map.get(ch);
+                map.put(ch,freq+1);
+            }else{
+                map.put(ch,1);
+            }
+        }
+          int maxVowelFreq = 0;
+        int maxConsonantFreq = 0;
+        for(Character key:map.keySet()){//gives us all keys (s, u, c, e).
+            int freq=map.get(key);//gives the  (frequency) for that key.
+           if (key == 'a' || key == 'e' || key == 'i' || key == 'o' || key == 'u'){
+                maxVowelFreq = Math.max(maxVowelFreq, freq);
+            }else {
+                maxConsonantFreq = Math.max(maxConsonantFreq, freq);
+                }
+        }
+        return maxVowelFreq + maxConsonantFreq;
+    }
+}
