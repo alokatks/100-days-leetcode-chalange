@@ -1,0 +1,36 @@
+1935. Maximum Number of Words You Can Type
+  Approach is : first tranfer all broken letter into set and than split the text into word and store in array and than traverse into that array and chech each charecter if set contain that character 
+    than dont increase count variale and if not contain by set increase that count by 1 
+
+    CODE:
+    class Solution {
+    public int canBeTypedWords(String text, String brokenLetters) {
+        // Step 1: Put all broken letters into a set
+        Set<Character>brokenset=new HashSet<>();
+        for(int i=0;i< brokenLetters.length();i++){
+            char c = brokenLetters.charAt(i);
+            brokenset.add(c);
+        }
+        // Step 2: Split the text into words
+        String[] words = text.split(" ");
+        int count = 0;
+          for (int i = 0; i < words.length; i++) {
+            String word = words[i];
+            boolean canType = true;
+           // Check each character in the word
+            for (int j = 0; j < word.length(); j++) {
+                char c = word.charAt(j);
+                if (brokenset.contains(c)) {
+                    canType = false;
+                    break; // no need to check further if one broken letter found
+                }
+            }
+            
+            if (canType) {
+                count++;
+            }
+        }
+        
+        return count;
+    }
+    }
