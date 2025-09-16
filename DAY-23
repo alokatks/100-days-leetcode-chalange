@@ -1,0 +1,45 @@
+2197. Replace Non-Coprime Numbers in Array
+
+Approach
+We go through the list one number at a time.
+
+We use a stack to keep track of the final sequence of numbers.
+
+For each number:
+
+While the top number on the stack and the current number are not coprime (i.e. their GCD is greater than 1):
+
+Pop the top number off the stack.
+Combine it with the current number by finding their LCM.
+Now check again with the new number and the new top of the stack.
+After all possible merges, we push the final number onto the stack.
+
+In the end, the stack will contain numbers where all adjacent values are coprime.
+
+CODE:
+class Solution {
+    public List<Integer> replaceNonCoprimes(int[] nums) {
+        List<Integer> stack = new ArrayList<>();
+        
+        for (int num : nums) {
+            while (!stack.isEmpty()) {
+                int top = stack.get(stack.size() - 1);
+                int g = gcd(top, num);
+                if (g == 1) {
+                    break;
+                }
+                // merge top with current num (via LCM)
+                stack.remove(stack.size() - 1);
+                num = (top / g) * num;  // safer LCM
+            }
+            stack.add(num);
+        }
+        
+        return stack;
+    }
+    
+    private int gcd(int a, int b) {
+        if (b == 0) return a;
+        return gcd(b, a % b);
+    }
+}
