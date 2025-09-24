@@ -1,0 +1,47 @@
+166. Fraction to Recurring Decimal
+  Approach
+Handle the sign separately.
+Result is negative if one of numerator, denominator is negative.
+Work with absolute values (cast to long to avoid overflow).
+Compute the integer part using division.
+If perfectly divisible → return integer as string.
+Otherwise, process the fractional part:
+Use a map to store each remainder and the index where its quotient digit was placed in the string.
+Multiply remainder by 10 each step, append quotient digit.
+If the same remainder repeats → we found a cycle. Insert "(" at stored index, append ")" at the end.
+Return the constructed string.
+CODE:
+class Solution {
+    public String fractionToDecimal(int numerator, int denominator) {
+        if (numerator == 0) return "0";
+
+        StringBuilder result = new StringBuilder();
+        // Handle sign
+        if ((numerator < 0) ^ (denominator < 0)) result.append("-");
+
+        long num = Math.abs((long) numerator);
+        long den = Math.abs((long) denominator);
+
+        // Integer part
+        result.append(num / den);
+        long remainder = num % den;
+        if (remainder == 0) return result.toString();
+
+        // Fractional part
+        result.append(".");
+        Map<Long, Integer> map = new HashMap<>();
+        while (remainder != 0) {
+            if (map.containsKey(remainder)) {
+                int idx = map.get(remainder);
+                result.insert(idx, "(");
+                result.append(")");
+                return result.toString();
+            }
+            map.put(remainder, result.length());
+            remainder *= 10;
+            result.append(remainder / den);
+            remainder %= den;
+        }
+        return result.toString();
+    }
+}
