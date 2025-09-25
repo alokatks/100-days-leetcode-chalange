@@ -1,0 +1,23 @@
+120. Triangle
+  Given a triangle array, return the minimum path sum from top to bottom.
+
+For each step, you may move to an adjacent number of the row below. More formally, if you are on index i on the current row, you may move to either index i or index i + 1 on the next row.
+
+ CODE:
+class Solution {
+    public int minimumTotal(List<List<Integer>> triangle) {
+        int n = triangle.size();
+
+        for (int row = n - 2; row >= 0; row--) {
+            for (int col = 0; col < triangle.get(row).size(); col++) {
+                int current = triangle.get(row).get(col);
+
+                int leftChild = triangle.get(row + 1).get(col);
+                int rightChild = triangle.get(row + 1).get(col + 1);
+
+                triangle.get(row).set(col, current + Math.min(leftChild, rightChild));
+            }
+        }
+        return triangle.get(0).get(0);
+    }
+}
